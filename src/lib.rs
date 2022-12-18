@@ -1,3 +1,5 @@
 mod tictactoe;
 
-pub use tictactoe::game::create_game;
+pub mod ttt_game {
+    pub use super::tictactoe::game::Game;
+}
