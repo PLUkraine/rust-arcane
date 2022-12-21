@@ -6,9 +6,9 @@ use fermium::{
     video::*,
     SDL_Init, SDL_Quit, SDL_INIT_EVERYTHING,
 };
-use gl33::global_loader::{glClearBufferfv, load_global_gl};
+use gl33::global_loader::{load_global_gl};
 
-use super::app_state::AppState;
+use super::{app_state::AppState, app_behaviour::AppBehaviour};
 
 pub struct SdlApp {
     pub window: *mut SDL_Window,
@@ -68,21 +68,16 @@ impl SdlApp {
         }
     }
 
-    pub fn main_loop(&mut self) {
+    pub fn main_loop(&mut self, app_behav: &mut impl AppBehaviour) {
         'mainloop: loop {
             unsafe {
-                self.app_state.update_ticks();
                 if self.poll_events() == QuitApp::Quit {
                     break 'mainloop;
                 }
+                self.app_state.update_ticks();
 
-                //finally some drawing it only took forever to get here
-                let red = self.app_state.ticks().cos().abs() as f32;
-                glClearBufferfv(
-                    gl33::GL_COLOR,
-                    0,
-                    &[red, 0.3_f32, 0.3_f32, 1.0_f32] as *const f32,
-                );
+                app_behav.update(&self.app_state);
+                app_behav.render(&self.app_state);
 
                 SDL_GL_SwapWindow(self.window);
             }
