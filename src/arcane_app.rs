@@ -1,12 +1,18 @@
 use gl33::global_loader::glClearBufferfv;
+use rust_arcane::ttt_game::Game;
 
-use crate::render_mender::{app_state::AppState, app_behaviour::AppBehaviour};
+use crate::render_mender::{app_state::AppState, app_behaviour::AppBehaviour, shader_program::GLShaderProgram};
 
-pub struct ArcaneApp {}
+pub struct ArcaneApp {
+    shader: GLShaderProgram
+}
 
 impl Default for ArcaneApp {
     fn default() -> Self {
-        ArcaneApp {}
+
+        ArcaneApp {
+            shader: GLShaderProgram::compile("triangle"),
+        }
     }
 }
 
@@ -15,6 +21,7 @@ impl AppBehaviour for ArcaneApp {
         //finally some drawing it only took forever to get here
         let red = app_state.ticks().cos().abs() as f32;
         unsafe {
+            self.shader.use_shader();
             glClearBufferfv(
                 gl33::GL_COLOR,
                 0,
@@ -22,5 +29,5 @@ impl AppBehaviour for ArcaneApp {
             );
         }
     }
-    fn update(&self, app_state: &AppState) {}
+    fn update(&self, _app_state: &AppState) {}
 }

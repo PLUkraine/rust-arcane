@@ -6,22 +6,22 @@ const BOARD_SZ: usize = BOARD_H * BOARD_W;
 pub enum Tile {
     None = 0,
     X = 1,
-    O = 2,
+    _O = 2,
 }
 
 pub struct Board {
-    tiles: [Tile; BOARD_SZ],
+    _tiles: [Tile; BOARD_SZ],
 }
 
 pub struct Game {
-    board: Board,
-    player: Tile,
+    _board: Board,
+    _player: Tile,
 }
 
 impl Board {
     pub fn new() -> Board {
         Board {
-            tiles: [Tile::None; 9],
+            _tiles: [Tile::None; 9],
         }
     }
 }
@@ -29,8 +29,8 @@ impl Board {
 impl Game {
     pub fn new() -> Game {
         Game {
-            board: Board::new(),
-            player: Tile::X,
+            _board: Board::new(),
+            _player: Tile::X,
         }
     }
 }
