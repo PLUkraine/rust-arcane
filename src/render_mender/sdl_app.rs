@@ -86,7 +86,7 @@ impl SdlApp {
                 match event.type_ {
                     SDL_QUIT => {
                         return QuitApp::Quit;
-                    },
+                    }
                     _ => {}
                 }
             }

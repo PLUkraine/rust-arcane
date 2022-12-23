@@ -15,7 +15,9 @@ fn read_shader(shader_name: &str) -> String {
     shader_path.push("shaders");
     shader_path.push(shader_name);
 
-    let ppska = shader_path.to_str().expect("Why are we still here just to suffer");
+    let ppska = shader_path
+        .to_str()
+        .expect("Why are we still here just to suffer");
     println!("Reading {}", ppska);
     read_to_string(shader_path).expect("Shader read failed")
 }
