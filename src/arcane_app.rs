@@ -1,6 +1,6 @@
 use gl33::{
-    global_loader::{glClearBufferfv, glDrawArrays},
-    GL_POINTS,
+    global_loader::{glClearBufferfv, glDrawArrays, glPointSize},
+    GL_POINTS, GL_TRIANGLES,
 };
 
 use crate::render_mender::{
@@ -35,8 +35,7 @@ impl AppBehaviour for ArcaneApp {
                 0,
                 &[red, 0.3_f32, 0.3_f32, 1.0_f32] as *const f32,
             );
-
-            glDrawArrays(GL_POINTS, 0, 1);
+            glDrawArrays(GL_TRIANGLES, 0, 3);
 
             self.vao.unbind()
         }
