@@ -6,9 +6,9 @@ use fermium::{
     video::*,
     SDL_Init, SDL_Quit, SDL_INIT_EVERYTHING,
 };
-use gl33::global_loader::{load_global_gl};
+use gl33::global_loader::load_global_gl;
 
-use super::{app_state::AppState, app_behaviour::AppBehaviour};
+use super::{app_behaviour::AppBehaviour, app_state::AppState};
 
 pub struct SdlApp {
     pub window: *mut SDL_Window,
@@ -25,9 +25,7 @@ enum QuitApp {
 impl SdlApp {
     pub fn new(title: &CString) -> SdlApp {
         unsafe {
-            if SDL_Init(SDL_INIT_EVERYTHING) < 0 {
-                panic!("SDL init failed");
-            }
+            assert!(SDL_Init(SDL_INIT_EVERYTHING) == 0);
 
             SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
             SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -47,14 +45,10 @@ impl SdlApp {
                 SDL_WINDOW_OPENGL.0 | SDL_WINDOW_SHOWN.0,
             )
         };
-        if win.is_null() {
-            panic!("Window init failed");
-        }
+        assert!(!win.is_null());
 
         let ctx = unsafe { SDL_GL_CreateContext(win) };
-        if ctx.is_null() {
-            panic!("GL context failed");
-        }
+        assert!(!ctx.is_null());
 
         unsafe {
             SDL_GL_SetSwapInterval(1);
@@ -74,6 +68,7 @@ impl SdlApp {
                 if self.poll_events() == QuitApp::Quit {
                     break 'mainloop;
                 }
+                // TODO implement proper fixed step
                 self.app_state.update_ticks();
 
                 app_behav.update(&self.app_state);
@@ -91,7 +86,7 @@ impl SdlApp {
                 match event.type_ {
                     SDL_QUIT => {
                         return QuitApp::Quit;
-                    }
+                    },
                     _ => {}
                 }
             }

@@ -1,5 +1,4 @@
 use gl33::global_loader::glClearBufferfv;
-use rust_arcane::ttt_game::Game;
 
 use crate::render_mender::{app_state::AppState, app_behaviour::AppBehaviour, shader_program::GLShaderProgram};
 
